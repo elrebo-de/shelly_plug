@@ -48,14 +48,23 @@ extern "C" void app_main(void)
 
 
     /* Configure the ShellyPlug */
-    ShellyPlug shellyWozi(std::string("shellyWozi"), std::string("192.168.178.102"));
-    shellyWozi.Switch(true, (uint16_t) 5);
-    vTaskDelay(10000 / portTICK_PERIOD_MS);
-    shellyWozi.Switch(true);
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-    shellyWozi.Switch(false);
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-    shellyWozi.Toggle();
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-    shellyWozi.Toggle();
+    {
+        std::string ipAddrShellyPlug = std::string("192.168.178.102");
+        ShellyPlug shellyWozi(std::string("shellyWozi"), ipAddrShellyPlug);
+
+        if (shellyWozi.GetLastHttpCode() != HTTP_CODE_OK) {
+            ESP_LOGI(tag, "No Shelly Plug at IPAddr %s", ipAddrShellyPlug.c_str());
+        }
+        else {
+            shellyWozi.Switch(true, (uint16_t) 5);
+            vTaskDelay(10000 / portTICK_PERIOD_MS);
+            shellyWozi.Switch(true);
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
+            shellyWozi.Switch(false);
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
+            shellyWozi.Toggle();
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
+            shellyWozi.Toggle();
+        }
+    }
 }
