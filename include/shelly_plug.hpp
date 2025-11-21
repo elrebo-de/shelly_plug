@@ -24,12 +24,15 @@ public:
     void Toggle();
     void Switch(bool switchState);
     void Switch(bool switchState, uint16_t toggleAfter);
+    int GetLastHttpCode();
 
 private:	
     std::string tag = "ShellyPlug";
 	bool switchState; // the switch state of the shelly plug
 	std::string ipAddr;
 	HTTPClient *shellyPlug;
+
+    int httpCode;
 };
 
 #endif /* SHELLY_PLUG_HPP_ */

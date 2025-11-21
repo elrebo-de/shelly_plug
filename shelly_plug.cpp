@@ -18,7 +18,6 @@ ShellyPlug::ShellyPlug(std::string tag, std::string ipAddr) {
     this->switchState = false;
 
     // initialize ShellyPlug HTTPClient
-    int httpCode;
     this->shellyPlug = new HTTPClient();
 
     // switch off shelly plug
@@ -29,11 +28,11 @@ ShellyPlug::ShellyPlug(std::string tag, std::string ipAddr) {
     ESP_LOGI(this->tag.c_str(), "ShellyPlug Command: %s", command.c_str());
 
     this->shellyPlug->begin(command.c_str());
-    httpCode = this->shellyPlug->GET();
-    if (httpCode > 0)
+    this->httpCode = this->shellyPlug->GET();
+    if (this->httpCode > 0)
     {
-        ESP_LOGI(this->tag.c_str(), "HTTP GET code: %d", httpCode);
-        if (httpCode == HTTP_CODE_OK)
+        ESP_LOGI(this->tag.c_str(), "HTTP GET code: %d", this->httpCode);
+        if (this->httpCode == HTTP_CODE_OK)
         {
             ESP_LOGI(this->tag.c_str(), "HTTP GET successful. Response:");
             if (this->shellyPlug->available() > 0 || this->shellyPlug->connected())
@@ -45,7 +44,7 @@ ShellyPlug::ShellyPlug(std::string tag, std::string ipAddr) {
     }
     else
     {
-        ESP_LOGE(this->tag.c_str(), "HTTP GET failed, error: %s", HTTPClient::errorToString(httpCode).c_str());
+        ESP_LOGE(this->tag.c_str(), "HTTP GET failed, error: %s", HTTPClient::errorToString(this->httpCode).c_str());
     }
 }
 
@@ -63,13 +62,12 @@ void ShellyPlug::Switch(bool switchState) {
 
     ESP_LOGI(this->tag.c_str(), "ShellyPlug Command: %s", command.c_str());
 
-    int httpCode;
     this->shellyPlug->setURL(command.c_str());
-    httpCode = this->shellyPlug->GET();
-    if (httpCode > 0)
+    this->httpCode = this->shellyPlug->GET();
+    if (this->httpCode > 0)
     {
-        ESP_LOGI(this->tag.c_str(), "HTTP GET code: %d", httpCode);
-        if (httpCode == HTTP_CODE_OK)
+        ESP_LOGI(this->tag.c_str(), "HTTP GET code: %d", this->httpCode);
+        if (this->httpCode == HTTP_CODE_OK)
         {
             ESP_LOGI(this->tag.c_str(), "HTTP GET successful. Response:");
             if (this->shellyPlug->available() > 0 || this->shellyPlug->connected())
@@ -81,7 +79,7 @@ void ShellyPlug::Switch(bool switchState) {
     }
     else
     {
-        ESP_LOGE(this->tag.c_str(), "HTTP GET failed, error: %s", HTTPClient::errorToString(httpCode).c_str());
+        ESP_LOGE(this->tag.c_str(), "HTTP GET failed, error: %s", HTTPClient::errorToString(this->httpCode).c_str());
     }
 }
 
@@ -98,13 +96,12 @@ void ShellyPlug::Switch(bool switchState, uint16_t toggleAfter) {
 
     ESP_LOGI(this->tag.c_str(), "ShellyPlug Command: %s", command.c_str());
 
-    int httpCode;
     this->shellyPlug->setURL(command.c_str());
-    httpCode = this->shellyPlug->GET();
-    if (httpCode > 0)
+    this->httpCode = this->shellyPlug->GET();
+    if (this->httpCode > 0)
     {
-        ESP_LOGI(this->tag.c_str(), "HTTP GET code: %d", httpCode);
-        if (httpCode == HTTP_CODE_OK)
+        ESP_LOGI(this->tag.c_str(), "HTTP GET code: %d", this->httpCode);
+        if (this->httpCode == HTTP_CODE_OK)
         {
             ESP_LOGI(this->tag.c_str(), "HTTP GET successful. Response:");
             if (this->shellyPlug->available() > 0 || this->shellyPlug->connected())
@@ -116,11 +113,15 @@ void ShellyPlug::Switch(bool switchState, uint16_t toggleAfter) {
     }
     else
     {
-        ESP_LOGE(this->tag.c_str(), "HTTP GET failed, error: %s", HTTPClient::errorToString(httpCode).c_str());
+        ESP_LOGE(this->tag.c_str(), "HTTP GET failed, error: %s", HTTPClient::errorToString(this->httpCode).c_str());
     }
 }
 
 void ShellyPlug::Toggle() {
     this->Switch(!this->switchState);
+}
+
+int ShellyPlug::GetLastHttpCode() {
+    return this->httpCode;
 }
 
