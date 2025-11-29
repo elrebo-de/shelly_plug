@@ -1,6 +1,6 @@
-version: "1.0.1"
+version: "1.0.2"
 license: "Apache 2.0"
-description: "Component to control a Shelly Plug for ESP-IDF version 6.0+ using a C++ class"
+description: "Component to control a Shelly Plug for ESP-IDF version 5.5.0+ using a C++ class"
 url: "https://github.com/elrebo-de/shelly_plug"
 issues: "https://github.com/elrebo-de/shelly_plug/issues"
 repository: "https://github.com/elrebo-de/shelly_plug.git"
@@ -9,5 +9,5 @@ maintainers:
 files:
   use_gitignore: "true"
 dependencies:
-  idf: "^6.0.0"
+  idf: ">=5.5.0"
   sachin42/httpclient: ^1.0.1
