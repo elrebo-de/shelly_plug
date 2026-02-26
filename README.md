@@ -1,18 +1,12 @@
 # Shelly Plug component
 
 This repository contains an ESP-IDF component for the Shelly Plug. It runs on
-any ESP32 processor and is built using the ESP-IDF build system in version 6.0.
+any ESP32 processor and is built using the ESP-IDF build system in version 5.5.0+.
 
 The component is implemented as C++ class `ShellyPlug`.
 
 It depends on ESP Component sachin42/httpclient.
 The example depends on ESP component 78/esp-wifi-connect for the Wifi connection.
-
-Because there are incompatibilities of httpclient with ESP-IDF version 6.0 it is
-added as a component to the example.
-
-Because there are incompatibilities of esp-wifi-connect with ESP-IDF version 6.0 it is
-added as a component to the example.
 
 ## Connecting the component
 
